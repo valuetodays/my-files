@@ -1,6 +1,14 @@
 // ==UserScript==
-// @name         m3u8视频侦测下载器【自动嗅探】并在页面最上边添加下载命令
-// @version      1.0.0
+// @name         m3u8视频侦测下载器【自动嗅探】
+// @name:zh-CN   m3u8视频侦测下载器【自动嗅探】
+// @name:zh-TW   m3u8視頻偵測下載器【自動嗅探】
+// @name:en      M3U8 Video Detector and Downloader
+// @version      1.4.1
+// @description  自动检测页面m3u8视频并进行完整下载。检测到m3u8链接后会自动出现在页面右上角位置，点击下载即可跳转到m3u8下载器。
+// @description:zh-CN  自动检测页面m3u8视频并进行完整下载。检测到m3u8链接后会自动出现在页面右上角位置，点击下载即可跳转到m3u8下载器。
+// @description:zh-TW  自動檢測頁面m3u8視頻並進行完整下載。檢測到m3u8鏈接後會自動出現在頁面右上角位置，點擊下載即可跳轉到m3u8下載器。
+// @description:en  Automatically detect the m3u8 video of the page and download it completely. Once detected the m3u8 link, it will appear in the upper right corner of the page. Click download to jump to the m3u8 downloader.
+// @icon         https://tools.thatwind.com/favicon.png
 // @author       allFull
 // @namespace    https://tools.thatwind.com/
 // @homepage     https://tools.thatwind.com/tool/m3u8downloader
@@ -27,11 +35,11 @@
 
 (function () {
     'use strict';
-	// 参考 https://greasyfork.org/zh-CN/scripts/449581-m3u8%E8%A7%86%E9%A2%91%E4%BE%A6%E6%B5%8B%E4%B8%8B%E8%BD%BD%E5%99%A8-%E8%87%AA%E5%8A%A8%E5%97%85%E6%8E%A2
+
     const mgmapi = {
 
         addStyle(s) {
- //           let style = document.createElement("style");
+  //          let style = document.createElement("style");
   //          style.innerHTML = s;
   //          document.documentElement.appendChild(style);
         },
@@ -89,7 +97,7 @@
                     align-items: end;
                     z-index: 999999999999999;
                 `;
-                (document.body || document.documentElement).appendChild(p);
+       //         (document.body || document.documentElement).appendChild(p);
             }
             let mdiv = document.createElement("div");
             mdiv.innerText = text;
@@ -103,7 +111,7 @@
                 color: #fff;
                 text-align: right;
             `;
-            p.appendChild(mdiv);
+    //        p.appendChild(mdiv);
             setTimeout(() => {
                 p.removeChild(mdiv);
             }, disappearTime);
@@ -254,11 +262,11 @@
         opacity: 0.9;
     `;
     rootDiv.style.display = "none";
-    document.documentElement.appendChild(rootDiv);
+ //   document.documentElement.appendChild(rootDiv);
 
     const shadowDOM = rootDiv.attachShadow({ mode: 'open' });
     const wrapper = document.createElement("div");
-    shadowDOM.appendChild(wrapper);
+  //  shadowDOM.appendChild(wrapper);
 
 
     // 指示器
@@ -312,7 +320,7 @@
         </span>
     `;
 
-    wrapper.appendChild(bar);
+  //  wrapper.appendChild(bar);
 
     // 样式
     const style = document.createElement("style");
@@ -373,7 +381,7 @@
 
     `;
 
- //   wrapper.appendChild(style);
+//    wrapper.appendChild(style);
 
 
 
@@ -549,10 +557,11 @@
                 let __name_with_suffix = __meta_value.getAttribute('content')
                 let __suffix = '剧情:'
                 let __name_without_suffix = __name_with_suffix.replace(__suffix, "");
-                __cmd = "N_m3u8DL-CLI_v3.0.2.exe "+url+" --saveName \""+__name_without_suffix+"\" --enableDelAfterDone"
+                __cmd = "N_m3u8DL-CLI_v3.0.2.exe "+url+" --saveName \""+__name_without_suffix+"\" --enableDelAfterDone";
+                __cmd += "<br/>m3u8d_windows_x64_cli-v1.25.5.exe download -u " + url+ " -f \"" + __name_without_suffix + "\"";
                 console.log('__cmd 111', __cmd)
                 var __div = __top.document.createElement("div");
-                __div.innerText = __cmd;
+                __div.innerHTML = __cmd;
                 // 追加元素到页面最上边，因为无法复制到剪贴板
                 __top.document.body.insertBefore(__div, __top.document.body.firstChild);
             }
@@ -587,12 +596,17 @@
 
         div.querySelector(".copy-link").addEventListener("click", () => {
             // 复制链接
-            mgmapi.copyText(url.href);
+            //mgmapi.copyText(url.href);
+            console.log('to copy', __cmd)
+            mgmapi.copyText('abc' + __cmd);
+            if (__cmd !== '') {
+                mgmapi.copyText(__cmd)
+            }
 
             mgmapi.message("已复制链接 (link copied)", 2000);
         });
 
-        div.querySelector(".download-btn").addEventListener("click", download);
+ //       div.querySelector(".download-btn").addEventListener("click", download);
 
         rootDiv.style.display = "block";
 
@@ -770,9 +784,9 @@
     }
 
     function addStyle(s) {
-        let style = document.createElement("style");
-        style.innerHTML = s;
-        document.documentElement.appendChild(style);
+       // let style = document.createElement("style");
+     //   style.innerHTML = s;
+    //    document.documentElement.appendChild(style);
     }
 
 })();
