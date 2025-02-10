@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         m3u8视频侦测下载器【自动嗅探】
-// @name:zh-CN   m3u8视频侦测下载器【自动嗅探】
-// @name:zh-TW   m3u8視頻偵測下載器【自動嗅探】
+// @name         m3u8视频侦测下载器【自动嗅探】并在页面最上边添加下载命令
+// @name:zh-CN   m3u8视频侦测下载器【自动嗅探】并在页面最上边添加下载命令
+// @name:zh-TW   m3u8視頻偵測下載器【自動嗅探】并在页面最上边添加下载命令
 // @name:en      M3U8 Video Detector and Downloader
 // @version      1.4.1
 // @description  自动检测页面m3u8视频并进行完整下载。检测到m3u8链接后会自动出现在页面右上角位置，点击下载即可跳转到m3u8下载器。
@@ -542,14 +542,14 @@
         let div = document.createElement("div");
         div.className = "m3u8-item";
         let __top = window.top
-        console.log('__top', __top)
-        console.log('__top.document', __top.document)
+        //console.log('__top', __top)
+        //console.log('__top.document', __top.document)
         let __href = __top.document.URL
-        console.log('__href:::' + __href)
-        let __cmd = '';
+        //console.log('__href:::' + __href)
+        var __div = __top.document.createElement("div");
+        let __cmd = "<br/>no matched this site";
         if (__href.includes('/vodplay/')) {
-            console.log('if')
-            let __meta_value = __top.document.querySelector('meta[name="description"]');
+             let __meta_value = __top.document.querySelector('meta[name="description"]');
             let __title = __top.document.title;
             console.log('sssssssssssss:' + __meta_value + ":," + JSON.stringify(__title));
 
@@ -560,12 +560,18 @@
                 __cmd = "N_m3u8DL-CLI_v3.0.2.exe "+url+" --saveName \""+__name_without_suffix+"\" --enableDelAfterDone";
                 __cmd += "<br/>m3u8d_windows_x64_cli-v1.25.5.exe download -u " + url+ " -f \"" + __name_without_suffix + "\"";
                 console.log('__cmd 111', __cmd)
-                var __div = __top.document.createElement("div");
-                __div.innerHTML = __cmd;
-                // 追加元素到页面最上边，因为无法复制到剪贴板
-                __top.document.body.insertBefore(__div, __top.document.body.firstChild);
+
             }
+        } else if (__href.includes("https://missav.ws/")) {
+            let __title = __top.document.title;
+            let __name_without_suffix = __title.replaceAll("/", "_").replaceAll(" ", "_").replaceAll("\"", "_").replaceAll("\'", "_");
+            __cmd = "<br/>m3u8d_windows_x64_cli-v1.25.5.exe download -u " + url+ " -f \"" + __name_without_suffix + "\"";
         }
+        __div.innerHTML = __cmd;
+ //       __div.id = "top_tip";
+        __div.style.backgroundColor = 'white'
+       // 追加元素到页面最上边，因为无法复制到剪贴板
+        __top.document.body.insertBefore(__div, __top.document.body.firstChild);
 
         div.innerHTML = `
             <span>${type}-new</span>
@@ -606,7 +612,7 @@
             mgmapi.message("已复制链接 (link copied)", 2000);
         });
 
- //       div.querySelector(".download-btn").addEventListener("click", download);
+        //div.querySelector(".download-btn").addEventListener("click", download);
 
         rootDiv.style.display = "block";
 
@@ -616,7 +622,7 @@
 
         bar.querySelector(".number-indicator").setAttribute("data-number", count);
 
-//        wrapper.appendChild(div);
+        //wrapper.appendChild(div);
     }
 
 })();
