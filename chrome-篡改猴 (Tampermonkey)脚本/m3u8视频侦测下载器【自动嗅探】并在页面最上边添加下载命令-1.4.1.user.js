@@ -549,9 +549,9 @@
         var __div = __top.document.createElement("div");
         let __cmd = "<br/>no matched this site";
         if (__href.includes('/vodplay/')) {
-             let __meta_value = __top.document.querySelector('meta[name="description"]');
+            let __meta_value = __top.document.querySelector('meta[name="description"]');
             let __title = __top.document.title;
-            console.log('sssssssssssss:' + __meta_value + ":," + JSON.stringify(__title));
+//            console.log('sssssssssssss:' + __meta_value + ":," + JSON.stringify(__title));
 
             if (__meta_value) {
                 let __name_with_suffix = __meta_value.getAttribute('content')
@@ -560,11 +560,15 @@
                 __cmd = "N_m3u8DL-CLI_v3.0.2.exe "+url+" --saveName \""+__name_without_suffix+"\" --enableDelAfterDone";
                 __cmd += "<br/>m3u8d_windows_x64_cli-v1.25.5.exe download -u " + url+ " -f \"" + __name_without_suffix + "\"";
                 console.log('__cmd 111', __cmd)
-
             }
         } else if (__href.includes("https://missav.ws/")) {
             let __title = __top.document.title;
-            let __name_without_suffix = __title.replaceAll("/", "_").replaceAll(" ", "_").replaceAll("\"", "_").replaceAll("\'", "_");
+            // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
+            let special_char_list = ["/", "\\", " ", "\"", "\'", "|", "!", "?", "*", "<", ">",":" "___", "__"];
+            let __name_without_suffix = __title;
+			for (let i = 0; i < special_char_list.length; i++) {
+			    __name_without_suffix = __name_without_suffix.replaceAll(special_char_list[i], "_");
+			}
             __cmd = "<br/>m3u8d_windows_x64_cli-v1.25.5.exe download -u " + url+ " -f \"" + __name_without_suffix + "\"";
         }
         __div.innerHTML = __cmd;
