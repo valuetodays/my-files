@@ -564,7 +564,7 @@
         } else if (__href.includes("https://missav.ws/")) {
             let __title = __top.document.title;
             // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
-            let special_char_list = ["/", "\\", " ", "\"", "\'", "|", "!", "?", "*", "<", ">",":" "___", "__"];
+            let special_char_list = ["/", "\\", " ", "\"", "\'", "|", "!", "?", "*", "<", ">",":", "___", "__"];
             let __name_without_suffix = __title;
 			for (let i = 0; i < special_char_list.length; i++) {
 			    __name_without_suffix = __name_without_suffix.replaceAll(special_char_list[i], "_");
